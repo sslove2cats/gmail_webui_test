@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by suejlee on 10/17(Saturday).
+ * Created by sslove2cats on 10/17(Saturday).
  */
 public class GmailSignInTest {
     WebDriver driver = new FirefoxDriver();
@@ -54,7 +54,6 @@ public class GmailSignInTest {
         //7. Click Sign out button
         WebElement signOutButton = driver.findElement(By.id("gb_71"));
         signOutButton.click();
-//        driver.switchTo().alert().dismiss();
 
         //8. Verify user did sign out
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signIn")));
