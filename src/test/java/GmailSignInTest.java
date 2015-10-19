@@ -1,13 +1,14 @@
+import com.gmailtest.pageobjects.EmailHomePage;
+import com.gmailtest.pageobjects.SignInPage;
+import com.gmailtest.pageobjects.AccountPage;
+import com.gmailtest.util.WebUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.concurrent.TimeUnit;
 
 public class GmailSignInTest {
     WebDriver driver = new FirefoxDriver();
@@ -15,81 +16,54 @@ public class GmailSignInTest {
     @Test
     public void gmailLogInShouldBeSuccessful() throws InterruptedException{
 
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-
         //1. Go to Gmail website
-        driver.get("http://gmail.com");
+        AccountPage accountPage = WebUtil.goToAccountPage(driver);
 
-        //2. Fill in username
-        WebElement usernameTextBox = driver.findElement(By.id("Email"));
-        usernameTextBox.clear();
-        usernameTextBox.sendKeys("sslove2cats@gmail.com");
+        //2. Fill in username and go to SignIn page
+        accountPage.fillInUsername(driver, "sslove2cats@gmail.com");
+        SignInPage signInPage = accountPage.goToPasswordPage(driver);
 
-        WebElement nextButton = driver.findElement(By.id("next"));
-        nextButton.click();
-
-        //3. Fill in password and SignIn
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Passwd")));
-        WebElement passwordTextBox = driver.findElement(By.id("Passwd"));
-        passwordTextBox.clear();
-        passwordTextBox.sendKeys("sslove2cats1");
+        //3. Fill in password
+        signInPage.fillPassword(driver, "sslove2cats1");
 
         //4. Click sign In
-        WebElement signInButton = driver.findElement(By.id("signIn"));
-        signInButton.click();
+        EmailHomePage emailHomePage = signInPage.clickSignIn(driver);
 
-        //5. Verify Inbox exists
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Inbox")));
-        Assert.assertTrue("Inbox should exists", driver.findElements(By.partialLinkText("Inbox")).size() > 0);
+        //5. Verify user did sign in
+        Assert.assertTrue("Inbox should exists", emailHomePage.isInboxExist(driver));
 
-        //6. Click user profile button
-        WebElement profileButton = driver.findElement(By.cssSelector("span[class='gb_Ka gbii']"));
-        profileButton.click();
+        //6. Sign out
+        signInPage = emailHomePage.signOut(driver);
 
-        //7. Click Sign out button
-        WebElement signOutButton = driver.findElement(By.id("gb_71"));
-        signOutButton.click();
-
-        try {
-            System.out.println("Alert handling here");
-            Thread.sleep(1000);
-            Alert alert = driver.switchTo().alert();
-            alert.accept();
-        } catch (NoAlertPresentException e) {
-            System.out.println("No Alert or alert error");
-        }
-
-        //8. Verify user did sign out
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signIn")));
-        Assert.assertTrue("Sign In page should show", driver.findElements(By.id("signIn")).size()>0);
+        //7. Verify user did sign out
+        Assert.assertTrue("Sign In page should show", signInPage.isSignInButtonExist(driver));
     }
 
     @Test
     public void gmailSendAndReceiveEmailTest() throws InterruptedException {
 
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        //1. Sign in
-        //1.1. Go to Gmail website
-        driver.get("http://gmail.com");
-        //1.2. Fill in username
-        WebElement usernameTextBox = driver.findElement(By.id("Email"));
-        usernameTextBox.clear();
-        usernameTextBox.sendKeys("sslove2cats@gmail.com");
-        WebElement nextButton = driver.findElement(By.id("next"));
-        nextButton.click();
-        //1.3. Fill in password and SignIn
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Passwd")));
-        WebElement passwordTextBox = driver.findElement(By.id("Passwd"));
-        passwordTextBox.clear();
-        passwordTextBox.sendKeys("sslove2cats1");
-        //1.4. Click sign In
-        WebElement signInButton = driver.findElement(By.id("signIn"));
-        signInButton.click();
-        //1.5. Verify Inbox exists
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Inbox")));
-        Assert.assertTrue("Inbox should exists", driver.findElements(By.partialLinkText("Inbox")).size() > 0);
 
-        Thread.sleep(5000);
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+
+        //1.1 Go to Gmail website
+        AccountPage accountPage = WebUtil.goToAccountPage(driver);
+
+        //1.2. Fill in username and go to SignIn page
+        accountPage.fillInUsername(driver, "sslove2cats@gmail.com");
+        SignInPage signInPage = accountPage.goToPasswordPage(driver);
+
+        //1.3. Fill in password
+        signInPage.fillPassword(driver, "sslove2cats1");
+
+        //1.4. Click sign In
+        EmailHomePage emailHomePage = signInPage.clickSignIn(driver);
+
+        //1.5. Verify user did sign in
+        Assert.assertTrue("Inbox should exists", emailHomePage.isInboxExist(driver));
+
+
+
+        Thread.sleep(10000);
 
         //2. Click Compose
         WebElement composeButton = driver.findElement(By.cssSelector("div[role='button'][gh='cm']"));
@@ -134,23 +108,12 @@ public class GmailSignInTest {
         WebElement bodyArea = driver.findElement(By.cssSelector("div[class='nH aHU'] div[dir='ltr']"));
         Assert.assertEquals("Email Body should be the same", bodyText, bodyArea.getText());
 
-        //10. Sign out
-        WebElement profileButton = driver.findElement(By.cssSelector("span[class='gb_Ka gbii']"));
-        profileButton.click();
-        WebElement signOutButton = driver.findElement(By.id("gb_71"));
-        signOutButton.click();
+        //10.1. Sign out
+        signInPage = emailHomePage.signOut(driver);
 
-        try {
-            System.out.println("Alert handling here");
-            Thread.sleep(1000);
-            Alert alert = driver.switchTo().alert();
-            alert.accept();
-        } catch (NoAlertPresentException e) {
-            System.out.println("No Alert or alert error");
-        }
+        //10.2. Verify user did sign out
+        Assert.assertTrue("Sign In page should show", signInPage.isSignInButtonExist(driver));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signIn")));
-        Assert.assertTrue("Sign In page should show", driver.findElements(By.id("signIn")).size()>0);
     }
 
     @After
