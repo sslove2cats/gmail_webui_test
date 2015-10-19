@@ -8,8 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class GmailSignInTest {
     WebDriver driver = new FirefoxDriver();
@@ -56,7 +54,7 @@ public class GmailSignInTest {
         //1.4. Click sign In
         EmailHomePage emailHomePage = signInPage.clickSignIn(driver);
 
-        Thread.sleep(10000);
+        emailHomePage.waitScreenUpdate(10000);
 
         //2. Click Compose
         emailHomePage.clickComposeButton(driver);

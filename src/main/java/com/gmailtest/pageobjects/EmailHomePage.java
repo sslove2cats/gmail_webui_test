@@ -3,9 +3,6 @@ package com.gmailtest.pageobjects;
 import com.gmailtest.util.WebUtil;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import sun.jvm.hotspot.debugger.Page;
 
 public class EmailHomePage {
 
@@ -56,5 +53,9 @@ public class EmailHomePage {
         WebUtil.click(driver, By.cssSelector("div[class='y6'] span[id] b"));
 
         return PageFactory.initElements(driver, EmailViewPage.class);
+    }
+
+    public void waitScreenUpdate(int i) throws InterruptedException {
+        WebUtil.threadWait(i);
     }
 }

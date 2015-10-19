@@ -36,7 +36,7 @@ public class WebUtil {
 
     public static void handleAlert(WebDriver driver) throws InterruptedException {
         try {
-            Thread.sleep(1000);
+            threadWait(1000);
             Alert alert = driver.switchTo().alert();
             alert.accept();
         } catch (NoAlertPresentException e) {
@@ -47,5 +47,9 @@ public class WebUtil {
     public static String getElementText(WebDriver driver, By by) {
         WebElement stringElement = driver.findElement(by);
         return stringElement.getText();
+    }
+
+    public static void threadWait(int i) throws InterruptedException {
+        Thread.sleep(i);
     }
 }
