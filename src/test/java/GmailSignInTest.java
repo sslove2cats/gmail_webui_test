@@ -1,9 +1,7 @@
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -132,10 +130,18 @@ public class GmailSignInTest {
         profileButton.click();
         WebElement signOutButton = driver.findElement(By.id("gb_71"));
         signOutButton.click();
+
+        try {
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+            System.out.println("Alert showed but handled correctly");
+
+        } catch (NoAlertPresentException e) {
+            System.out.println("No Alert");
+        }
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signIn")));
         Assert.assertTrue("Sign In page should show", driver.findElements(By.id("signIn")).size()>0);
-
-
     }
 
     @After
