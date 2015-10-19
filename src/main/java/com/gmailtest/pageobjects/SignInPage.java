@@ -1,5 +1,6 @@
 package com.gmailtest.pageobjects;
 
+import com.gmailtest.util.WebUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,25 +11,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class SignInPage {
 
     public void fillPassword(WebDriver driver, String s) {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Passwd")));
-        WebElement passwordTextBox = driver.findElement(By.id("Passwd"));
-        passwordTextBox.clear();
-        passwordTextBox.sendKeys(s);
+        WebUtil.waitForElementVisible(driver, By.id("Passwd"));
+        WebUtil.sendKeys(driver, By.id("Passwd"), s);
     }
 
     public EmailHomePage clickSignIn(WebDriver driver) {
-        WebElement signInButton = driver.findElement(By.id("signIn"));
-        signInButton.click();
-
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Inbox")));
+        WebUtil.click(driver, By.id("signIn"));
+        WebUtil.waitForElementVisible(driver, By.partialLinkText("Inbox"));
 
         return PageFactory.initElements(driver, EmailHomePage.class);
     }
 
     public boolean isSignInButtonExist(WebDriver driver) {
-        return driver.findElements(By.id("signIn")).size()>0;
+        return WebUtil.isElementExist(driver, By.id("signIn"));
     }
 
 }

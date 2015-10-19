@@ -1,5 +1,6 @@
 package com.gmailtest.pageobjects;
 
+import com.gmailtest.util.WebUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,14 +8,11 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AccountPage {
     public void fillInUsername(WebDriver driver, String s) {
-        WebElement usernameTextBox = driver.findElement(By.id("Email"));
-        usernameTextBox.clear();
-        usernameTextBox.sendKeys(s);
+        WebUtil.sendKeys(driver, By.id("Email"), s);
     }
 
     public SignInPage goToPasswordPage(WebDriver driver) {
-        WebElement nextButton = driver.findElement(By.id("next"));
-        nextButton.click();
+        WebUtil.click(driver, By.id("next"));
         return PageFactory.initElements(driver, SignInPage.class);
     }
 }

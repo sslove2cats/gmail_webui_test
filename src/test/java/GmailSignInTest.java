@@ -90,7 +90,6 @@ public class GmailSignInTest {
 
         //10. Sign out
         emailHomePage.signOut(driver);
-
     }
 
     @After
