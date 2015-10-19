@@ -2,20 +2,18 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by sslove2cats on 10/17(Saturday).
- */
 public class GmailSignInTest {
     WebDriver driver = new FirefoxDriver();
 
     @Test
-    public void gmailLogInShouldBeSuccessful(){
+    public void gmailLogInShouldBeSuccessful() throws InterruptedException{
 
         WebDriverWait wait = new WebDriverWait(driver, 30);
 
@@ -52,13 +50,22 @@ public class GmailSignInTest {
         WebElement signOutButton = driver.findElement(By.id("gb_71"));
         signOutButton.click();
 
+        try {
+            System.out.println("Alert handling here");
+            Thread.sleep(1000);
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+        } catch (NoAlertPresentException e) {
+            System.out.println("No Alert or alert error");
+        }
+
         //8. Verify user did sign out
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signIn")));
         Assert.assertTrue("Sign In page should show", driver.findElements(By.id("signIn")).size()>0);
     }
 
     @Test
-    public void gmailSendAndReceiveEmailTest(){
+    public void gmailSendAndReceiveEmailTest() throws InterruptedException {
 
         WebDriverWait wait = new WebDriverWait(driver, 30);
         //1. Sign in
@@ -81,6 +88,8 @@ public class GmailSignInTest {
         //1.5. Verify Inbox exists
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Inbox")));
         Assert.assertTrue("Inbox should exists", driver.findElements(By.partialLinkText("Inbox")).size() > 0);
+
+        Thread.sleep(5000);
 
         //2. Click Compose
         WebElement composeButton = driver.findElement(By.cssSelector("div[role='button'][gh='cm']"));
@@ -132,12 +141,12 @@ public class GmailSignInTest {
         signOutButton.click();
 
         try {
+            System.out.println("Alert handling here");
+            Thread.sleep(1000);
             Alert alert = driver.switchTo().alert();
             alert.accept();
-            System.out.println("Alert showed but handled correctly");
-
         } catch (NoAlertPresentException e) {
-            System.out.println("No Alert");
+            System.out.println("No Alert or alert error");
         }
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signIn")));
