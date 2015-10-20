@@ -36,6 +36,7 @@ public class EmailHomePage {
     }
 
     public void fillingBody(WebDriver driver, String bodyText) {
+        WebUtil.waitForElementVisible(driver, By.cssSelector("div[aria-label='Message Body']"));
         WebUtil.sendKeys(driver, By.cssSelector("div[aria-label='Message Body']"), bodyText);
     }
 
