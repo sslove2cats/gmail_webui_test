@@ -10,10 +10,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class GmailSignInTest {
-    WebDriver driver = new FirefoxDriver();
+    WebDriver driver = new ChromeDriver();
 
     @Category({Critical.class})
     @Test
