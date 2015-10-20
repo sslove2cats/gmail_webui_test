@@ -14,7 +14,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class GmailSignInTest {
-    WebDriver driver = new ChromeDriver();
+    WebDriver driver = new FirefoxDriver();
 
     @Category({Critical.class})
     @Test
