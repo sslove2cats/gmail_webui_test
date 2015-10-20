@@ -1,3 +1,5 @@
+import com.gmailtest.categories.Critical;
+import com.gmailtest.categories.Major;
 import com.gmailtest.pageobjects.EmailHomePage;
 import com.gmailtest.pageobjects.EmailViewPage;
 import com.gmailtest.pageobjects.SignInPage;
@@ -6,12 +8,14 @@ import com.gmailtest.util.WebUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class GmailSignInTest {
     WebDriver driver = new FirefoxDriver();
 
+    @Category({Critical.class})
     @Test
     public void gmailLogInShouldBeSuccessful() throws InterruptedException{
 
@@ -38,6 +42,7 @@ public class GmailSignInTest {
         Assert.assertTrue("Sign In page should show", signInPage.isSignInButtonExist(driver));
     }
 
+    @Category({Major.class})
     @Test
     public void gmailSendAndReceiveEmailTest() throws InterruptedException {
 
