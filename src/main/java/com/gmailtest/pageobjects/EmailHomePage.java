@@ -40,7 +40,7 @@ public class EmailHomePage {
     }
 
     public void clickSendEmail(WebDriver driver) {
-        WebUtil.waitForTextFilled(driver, By.cssSelector("div[aria-label='Message Body']"));
+        WebUtil.waitForTextFilled(driver, By.cssSelector("div[aria-label='Message Body']")); //wait until body text added
         WebUtil.click(driver, By.cssSelector("div[aria-label*='Send']"));
     }
 
