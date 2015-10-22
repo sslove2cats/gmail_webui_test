@@ -3,6 +3,7 @@ package com.gmailtest.util;
 import com.gmailtest.pageobjects.AccountPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -51,5 +52,14 @@ public class WebUtil {
 
     public static void threadWait(int i) throws InterruptedException {
         Thread.sleep(i);
+    }
+
+    public static void waitForTextFilled(WebDriver driver, final By by) {
+        WebDriverWait wait = new WebDriverWait(driver, MAX_TIME_OUT);
+        wait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.findElement(by).getText().length() != 0;
+            }
+        });
     }
 }

@@ -7,6 +7,7 @@ import com.gmailtest.pageobjects.AccountPage;
 import com.gmailtest.util.WebUtil;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.openqa.selenium.*;
@@ -14,7 +15,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class GmailSignInTest {
-    WebDriver driver = new FirefoxDriver();
+    WebDriver driver ;
+
+    @Before
+    public void setDriver(){
+        String browserName = System.getenv("browser");
+        if(browserName != null && browserName.equalsIgnoreCase("Chrome")) {
+            driver = new ChromeDriver();
+        } else {
+            driver = new FirefoxDriver();
+        }
+    }
 
     @Category({Critical.class})
     @Test

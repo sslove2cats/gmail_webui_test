@@ -36,11 +36,11 @@ public class EmailHomePage {
     }
 
     public void fillingBody(WebDriver driver, String bodyText) {
-        WebUtil.waitForElementVisible(driver, By.cssSelector("div[aria-label='Message Body']"));
         WebUtil.sendKeys(driver, By.cssSelector("div[aria-label='Message Body']"), bodyText);
     }
 
     public void clickSendEmail(WebDriver driver) {
+        WebUtil.waitForTextFilled(driver, By.cssSelector("div[aria-label='Message Body']"));
         WebUtil.click(driver, By.cssSelector("div[aria-label*='Send']"));
     }
 
